@@ -1,4 +1,6 @@
-
+%% Sobel operators
+S_x = [-1 0 1; -2 0 2; -1 0 1]*(1/8)
+S_y = [1 2 1; 0 0 0; -1 -2 -1]*(1/8)
 %% finding peak positions
 thld = 0.1; %a threshold to make up for background noise
 middle = y_data(2:end-1); %voltage values except for ends
