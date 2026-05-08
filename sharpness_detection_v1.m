@@ -7,8 +7,8 @@ G_x = S_x * data
 
 
 %% finding peak positions
-thld = 0.1; %a threshold to make up for background noise
-middle = y_data(2:end-1); %voltage values except for ends
+thld = 0.1; % a threshold to make up for background noise
+middle = y_data(2:end-1); % values except for ends
 
 % neighbours of each point 
 % 'left' is points 1 to N-2. 'right' is points 3 to N.

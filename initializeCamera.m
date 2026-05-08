@@ -43,6 +43,10 @@ while counter < 100
 %frames are captures
     data = getdata(vid); % Load the frame data into an array containing the
 %brightness of each pixel
+    
+
+
+
     imshow(data(:,:,1),[0 4096]) % Displays the first frame in the triggered
 %series. The second argument [0 4096] sets the grayscale display range, i.e. the
 %pixel value that will be displayed as black (0 in this case) and the pixel value
