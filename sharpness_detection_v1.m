@@ -1,6 +1,4 @@
-%% data labelling (no se muy bien como llamarlo)
-[x_out_t, y_data] = getpoints(sharpnessline); 
-x_data = seconds(x_out_s); % turns duration into double
+
 %% finding peak positions
 thld = 0.1; %a threshold to make up for background noise
 middle = y_data(2:end-1); %voltage values except for ends
