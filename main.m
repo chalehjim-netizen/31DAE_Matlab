@@ -17,11 +17,7 @@ t_pause = 2; % seconds
 
 range_scan = stepsStart : stepsEnd;
 
-
-
-
-
-sharpness = computeSharpness(frame)
+sharpness = computeSharpness(frame);
 
 
 
