@@ -1,4 +1,4 @@
-function moveMotor(targetPos,rangeScan, actualPos, motorObj)
+function moveMotor(targetPos,scanRange, actualPos, motorObj)
     % moveMotor  Move motor/stage to target position.
     % actualPos = moveMotor(targetPos) simulates a short move and returns the target as the actual position. 
     % If a `motorObj` is provided, the function will attempt to use it.
@@ -12,7 +12,11 @@ function moveMotor(targetPos,rangeScan, actualPos, motorObj)
         dir = 1
     end
 
-    motorObj.startMoving(dir, 1000, steps_to_move);% Moving the motor
+    if targetPos < scanRange[2] and targetPos > scanRange[1]
+        motorObj.startMoving(dir, 1000, steps_to_move);% Moving the motor
+    else
+        fprintf('Target position beyond boundaries of stepper motor.')
+    end
 
     actualPos = targetPos % Re-iteration of current position…–
 end
