@@ -11,8 +11,8 @@ range_scan = [stepsStart, stepsEnd];
 
 t_expo = 4;
 gain = 0.2;
-s_coarse_step = 1000; % yards
-s_fine_step = 100; % micrometers
+coarseStep = 1000; % yards
+fineStep = 100; % micrometers
 t_pause = 2; % seconds
 
 

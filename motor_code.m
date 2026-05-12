@@ -3,7 +3,8 @@ clearvars
 PYNQ_obj = PYNQ_LIB.PYNQ_ML;
 
 PYNQ_obj.ADC_Ext_initialize;
-motor = PYNQ_LIB.PYNQ_StepMot(PYNQ_obj)
+motor = PYNQ_LIB.PYNQ_StepMot(PYNQ_obj);
+
 
 PYNQ_obj.ADC_Ext_set("A0TG",1,1); 
 
@@ -23,8 +24,9 @@ sem_voltages = zeros(1, num_positions);
 for i = 1:num_positions
     % move motor to new distance
     if i > 1
-        motor.startMoving(1, 1000, steps_per_move); % Direction, frequency, steps
+        motor.startMoving(0, 1000, steps_per_move); % Direction, frequency, steps
     end
+
     
     % note current physical distance r = r0 + moved_distance
     physical_distances(i) = r0 + ((i-1) * steps_per_move * step_to_m);

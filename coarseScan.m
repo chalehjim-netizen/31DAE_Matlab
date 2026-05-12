@@ -1,6 +1,7 @@
 function [positions, sharpnessValues] = coarseScan( ...
     vid, ...
     scanRange, ...
+    coarseStep, ...
     settlingTime)
 
 % Arrays to store results
@@ -8,7 +9,7 @@ positions = [];
 sharpnessValues = [];
 
 % Loop through all scan positions
-for pos = scanRange
+for pos = scanRange[1]:coarseStep:scanRange[2]
 
     % Move motor to target position
     moveMotor(pos);
