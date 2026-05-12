@@ -1,8 +1,9 @@
-% close all
-clear all
+
 imaqreset %This resets the imaging module, is optional but might prevent errors
 
-%% Connect camera and set properties
+hw = imaqhwinfo;
+hw.InstalledAdaptors
+
 imaqInfo = imaqhwinfo('gentl',1); % Prints properties of imaging module
 vid = videoinput("gentl",1,"Mono12"); %Create a video object with the camera input
 get(vid) %Outputs a list of all video properties
@@ -40,17 +41,17 @@ counter = 0;
 while counter < 100
     start(vid) % Start the video stream
     trigger(vid) % Triggers the camera, also stops the video stream after all
-%frames are captures
+    %frames are captures
     data = getdata(vid); % Load the frame data into an array containing the
-%brightness of each pixel
-    
+    %brightness of each pixel
+
 
 
 
     imshow(data(:,:,1),[0 4096]) % Displays the first frame in the triggered
-%series. The second argument [0 4096] sets the grayscale display range, i.e. the
-%pixel value that will be displayed as black (0 in this case) and the pixel value
-%that will be displayed as white (4069 in this case).
+    %series. The second argument [0 4096] sets the grayscale display range, i.e. the
+    %pixel value that will be displayed as black (0 in this case) and the pixel value
+    %that will be displayed as white (4069 in this case).
     drawnow % Update figure
     counter = counter + 1;
 end

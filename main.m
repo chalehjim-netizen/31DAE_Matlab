@@ -6,6 +6,7 @@ step_to_m = 1e-6;
 
 stepsStart = 0;
 stepsEnd = 15000;
+range_scan = [stepsStart, stepsEnd];
 
 
 t_expo = 4;
@@ -15,9 +16,10 @@ s_fine_step = 100; % micrometers
 t_pause = 2; % seconds
 
 
-range_scan = stepsStart : stepsEnd;
 
 sharpness = computeSharpness(frame);
+
+
 
 
 
