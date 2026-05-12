@@ -14,6 +14,5 @@ function moveMotor(targetPos,rangeScan, actualPos, motorObj)
 
     motorObj.startMoving(dir, 1000, steps_to_move);% Moving the motor
 
-
-    actualPos = targetPos % Re-iteration of current position
+    actualPos = targetPos % Re-iteration of current position…–
 end

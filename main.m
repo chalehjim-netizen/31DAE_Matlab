@@ -19,6 +19,7 @@ t_pause = 2; % seconds
 
 sharpness = computeSharpness(frame);
 
+% === SECTION 2 - FIRST MEASUREMENTS ===
 
 
 
