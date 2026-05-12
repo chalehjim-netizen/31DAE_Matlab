@@ -12,8 +12,8 @@ sharpnessValues = [];
 for pos = scanRange[1]:coarseStep:scanRange[2]
 
     % Move motor to target position
-    moveMotor(pos);
-
+    moveMotor(pos,scanRange,motorObj.actualPos);
+ 
     % Wait for stage vibrations to settle
     pause(settlingTime);
 
