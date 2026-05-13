@@ -21,7 +21,9 @@ range_scan = [stepsStart, stepsEnd];
 % === SECTION 2 - INITIALIZATION ===
 disp('Initializing Hardware...');
 [PYNQ_obj, StepMot] = initializePynqBoard();
-StepMot.actualPos = 0; % Initialize the internal tracker to zero
+
+% Automatically calibrate the motor to find the physical zero position
+calibrateMotor(StepMot);
 
 [vid, src] = initializeCamera(t_expo, gain);
 
