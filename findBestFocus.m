@@ -1,29 +1,26 @@
 function bestPos = findBestFocus(positions, sharpnessValues)
-% findBestFocus  Return the position corresponding to maximum sharpness
-%   bestPos = findBestFocus(positions, sharpnessValues)
-%   Performs a small smoothing of the sharpness curve and returns the
-%   `positions` entry with the highest (smoothed) sharpness.
-
-if nargin < 2
-    error('findBestFocus:NotEnoughInputs','Require positions and sharpnessValues.');
-end
-
-if isempty(positions) || isempty(sharpnessValues)
-    error('findBestFocus:EmptyInputs','Inputs must be non-empty arrays.');
-end
-
-% Ensure column vectors
-positions = positions(:);
-sharpnessValues = sharpnessValues(:);
-
-% Slight smoothing to reduce single-point noise (window=3)
-if numel(sharpnessValues) >= 3
-    s = movmean(sharpnessValues, 3);
-else
-    s = sharpnessValues;
-end
-
-[~, idx] = max(s);
-bestPos = positions(idx);
-
+    % findBestFocus Returns the position with the maximum sharpness
+    
+    % Smooth the data slightly to remove single-point noise
+    smoothedSharpness = movmean(sharpnessValues, 3);
+    
+    % Find the index of the highest sharpness value
+    [~, maxIdx] = max(smoothedSharpness);
+    
+    % Get the corresponding motor position
+    bestPos = positions(maxIdx);
+    
+    % Plot the focus curve so we can visually check if the peak is real
+    figure;
+    plot(positions, sharpnessValues, 'bo-', 'DisplayName', 'Raw Sharpness'); 
+    hold on;
+    plot(positions, smoothedSharpness, 'r--', 'DisplayName', 'Smoothed Sharpness');
+    plot(bestPos, smoothedSharpness(maxIdx), 'g*', 'MarkerSize', 10, 'LineWidth', 2, 'DisplayName', 'Best Focus');
+    
+    xlabel('Motor Position (Steps)');
+    ylabel('Sharpness (Tenengrad)');
+    title('Autofocus Curve');
+    legend('show');
+    grid on;
+    hold off;
 end

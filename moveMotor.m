@@ -1,22 +1,32 @@
-function moveMotor(targetPos,scanRange, actualPos, motorObj)
-    % moveMotor  Move motor/stage to target position.
-    % actualPos = moveMotor(targetPos) simulates a short move and returns the target as the actual position. 
-    % If a `motorObj` is provided, the function will attempt to use it.
-    steps_to_move = actualPos - targetPos %number of steps the stepper motor has to move to reach ideal sharpness
-
-    % Direction the stepper motor has to follow according to the distance
-    if steps_to_move < 0
-        dir = 0
+function moveMotor(motorObj, targetPos)
+    % Moves the stepper motor to the specified position
+    
+    currentPos = motorObj.actualPos;
+    steps_to_move = targetPos - currentPos;
+    
+    % If already at the target position, do nothing
+    if steps_to_move == 0
+        return;
     end
+    
+    % Determine direction: 1 for forward, 0 for backward
     if steps_to_move > 0
-        dir = 1
-    end
-
-    if targetPos < scanRange[2] and targetPos > scanRange[1]
-        motorObj.startMoving(dir, 1000, steps_to_move);% Moving the motor
+        dir = 1;
     else
-        fprintf('Target position beyond boundaries of stepper motor.')
+        dir = 0;
     end
-
-    actualPos = targetPos % Re-iteration of current position…–
+    
+    % Motor command only takes positive numbers
+    abs_steps = abs(steps_to_move);
+    frequency = 1000; % Speed: steps per second
+    
+    % Tell the motor to start moving
+    motorObj.startMoving(dir, frequency, abs_steps);
+    
+    % Wait for the physical motor to finish moving
+    moving_time = abs_steps / frequency;
+    pause(moving_time); 
+    
+    % Update our tracker
+    motorObj.actualPos = targetPos;
 end
