@@ -1,30 +1,51 @@
-function [positions, sharpnessValues] = coarseScan(vid, StepMot, scanRange, coarseStep, settlingTime)
-    % coarseScan - Does a wide sweep to find the general area of focus
-    
-    % Arrays to store our data
-    positions = [];
-    sharpnessValues = [];
-    
-    % Loop through the scan range
-    for pos = scanRange(1):coarseStep:scanRange(2)
-    
-        % Move motor to target position
-        moveMotor(StepMot, pos);
-    
-        % Wait a tiny bit for the physical stage to stop shaking
-        pause(settlingTime);
-    
-        % Take a picture
-        img = captureFrame(vid);
-    
-        % Calculate how sharp the picture is
-        sharpness = computeSharpness(img);
-    
-        % Save the data
-        positions(end+1) = pos;
-        sharpnessValues(end+1) = sharpness;
-    
-        % Print progress to the console
-        fprintf('Position: %d | Sharpness: %.2f\n', pos, sharpness);
-    end
+function [positions, sharpnessValues] = coarseScan( ...
+    vid, ...
+    scanRange, ...
+    coarseStep, ...
+    settlingTime)
+
+% Arrays to store results
+positions = [];
+sharpnessValues = [];
+
+% Track current motor position so moveMotor knows how far to travel
+actualPos = scanRange(1);
+
+% Loop through all scan positions
+for pos = scanRange(1):coarseStep:scanRange(2)
+
+    % Move motor to target position
+    moveMotor(pos,scanRange,motorObj.actualPos);
+ 
+    % Wait for stage vibrations to settle
+    pause(settlingTime);
+
+    % Acquire image
+    img = captureFrame(vid);
+
+    % Optional ROI cropping
+    % img = img(300:700,300:700);
+
+    % Compute sharpness metric
+    sharpness = computeSharpness(img);
+
+    % Store results
+    positions(end+1) = pos;
+    sharpnessValues(end+1) = sharpness;
+
+    % Display progress in command window
+    fprintf('Position: %d | Sharpness: %.2f\n', pos, sharpness);
+
+
+end
+% Find the coarse best-focus position
+bestPos = findBestFocus(positions, sharpnessValues);
+fprintf('\nCoarse best-focus position: %d steps\n', bestPos);
+
+% Fine scan range
+halfWidth  = 1.5 * coarseStep;
+fineRange  = [ max(scanRange(1), bestPos - halfWidth), ...
+               min(scanRange(2), bestPos + halfWidth) ];
+fprintf('Fine-scan range: [%d, %d]\n\n', fineRange(1), fineRange(2));
+
 end
