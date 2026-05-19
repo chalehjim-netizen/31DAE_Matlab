@@ -13,7 +13,7 @@ function [positions, sharpnessValues] = fineScan(vid, StepMot, scanRange, fineSt
     
         % Move motor to target position
         moveMotor(pos, fineRange, actualPos, motorObj);
-        actualPos = pos
+        motorObj.actualPos = pos
     
         % Wait a tiny bit for the physical stage to stop shaking
         pause(settlingTime);

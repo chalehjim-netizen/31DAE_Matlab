@@ -43,7 +43,7 @@ function [positions, sharpnessValues] = coarseScan( ...
     % Fine scan range
     halfWidth  = 1.5 * coarseStep;
     fineRange  = [ max(scanRange(1), bestPos - halfWidth), ...
-              min(scanRange(2), bestPos + halfWidth) ];
+                min(scanRange(2), bestPos + halfWidth) ];
     fprintf('Fine-scan range: [%d, %d]\n\n', fineRange(1), fineRange(2));
-    
+
 end
