@@ -31,10 +31,10 @@ disp('--- Initializing Camera ---')
 
 % === 3. COARSE SCAN ===
 disp('Starting Coarse Scan...');
-[coarsePos, coarseSharpness] = coarseScan(vid, StepMot, range_scan, coarseStep, settlingTime);
+[coarsePos, coarseSharpness, coarseResults] = coarseScan(vid, StepMot, range_scan, coarseStep, settlingTime);
 
 disp('Analyzing Coarse Data...');
-bestCoarsePos = findBestFocus(coarsePos, coarseSharpness);
+[bestCoarsePos, coarseFig] = findBestFocus(coarsePos, coarseSharpness, 'coarse_sharpness_vs_position');
 fprintf('Coarse Peak found at step: %d\n', bestCoarsePos);
 
 % === 4. FINE SCAN ===
@@ -43,10 +43,10 @@ fineStart = max(0, bestCoarsePos - fineRangeOffset);
 fineEnd = bestCoarsePos + fineRangeOffset;
 fine_range_scan = [fineStart, fineEnd];
 
-[finePos, fineSharpness] = fineScan(vid, StepMot, fine_range_scan, fineStep, settlingTime);
+[finePos, fineSharpness, fineResults] = fineScan(vid, StepMot, fine_range_scan, fineStep, settlingTime);
 
 disp('Analyzing Fine Data...');
-bestFinePos = findBestFocus(finePos, fineSharpness);
+[bestFinePos, fineFig] = findBestFocus(finePos, fineSharpness, 'fine_sharpness_vs_position');
 fprintf('Ultimate Best Focus found at step: %d\n', bestFinePos);
 
 % === 5. FINAL POSITIONING ===
@@ -58,9 +58,14 @@ disp('Autofocus Complete');
 
 % Capture and display final sharp frame
 finalImg = captureFrame(vid);
-figure; 
+finalFig = figure('Name', 'final_focused_image'); 
 imshow(finalImg, []); 
 title('Final Autofocused Image');
+
+% === 6. SAVE DATA ===
+disp('Saving session data...');
+figs = [coarseFig, fineFig, finalFig];
+saveData(coarseResults, fineResults, bestCoarsePos, bestFinePos, figs);
 
 % Clean up camera resources
 delete(vid);

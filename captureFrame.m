@@ -17,7 +17,7 @@ function img = captureFrame(vid)
     
     img = getdata(vid, 1);
     
-    % Get the picture data
+    % If the image is a struct, extract the pixel data
     if isstruct(img) && isfield(img, 'cdata')
         img = img.cdata;
     end

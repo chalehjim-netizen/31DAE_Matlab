@@ -1,5 +1,8 @@
-function bestPos = findBestFocus(positions, sharpnessValues)
+function [bestPos, fig] = findBestFocus(positions, sharpnessValues, scanName)
     % Find the motor position with the best sharpness
+    if nargin < 3
+        scanName = 'Autofocus Focus Curve';
+    end
     
     % Smooth out the sharpness scores to ignore random spikes
     smoothedSharpness = movmean(sharpnessValues, 3);
@@ -8,7 +11,7 @@ function bestPos = findBestFocus(positions, sharpnessValues)
     bestPos = positions(maxIdx);
     
     % Show a plot of the sharpness
-    figure;
+    fig = figure('Name', scanName);
     plot(positions, sharpnessValues, 'bo-', 'DisplayName', 'Raw Sharpness'); 
     hold on;
     plot(positions, smoothedSharpness, 'r--', 'DisplayName', 'Smoothed Sharpness');
@@ -16,7 +19,7 @@ function bestPos = findBestFocus(positions, sharpnessValues)
     
     xlabel('Motor Position (Steps)');
     ylabel('Sharpness (Tenengrad)');
-    title('Autofocus Focus Curve');
+    title(scanName);
     legend('show');
     grid on;
     hold off;

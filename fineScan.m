@@ -1,4 +1,4 @@
-function [positions, sharpnessValues] = fineScan(vid, StepMot, scanRange, fineStep, settlingTime)
+function [positions, sharpnessValues, results] = fineScan(vid, StepMot, scanRange, fineStep, settlingTime)
     % Do a slow, detailed scan around the best coarse position
     
     positions = [];
@@ -16,4 +16,7 @@ function [positions, sharpnessValues] = fineScan(vid, StepMot, scanRange, fineSt
     
         fprintf('Fine Scan - Position: %d | Sharpness: %.2f\n', pos, sharpness);
     end
+
+    % Package the data into a simple table for saving
+    results = [positions(:), sharpnessValues(:)];
 end
