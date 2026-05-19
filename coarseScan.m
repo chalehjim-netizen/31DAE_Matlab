@@ -34,7 +34,7 @@ function [positions, sharpnessValues] = coarseScan( ...
         sharpnessValues(end+1) = sharpness;
 
         % Display progress in command window
-        printf('Position: %d | Sharpness: %.2f\n', pos, sharpness);
+        fprintf('Position: %d | Sharpness: %.2f\n', pos, sharpness);
     end
     % Find the coarse best-focus position
     bestPos = findBestFocus(positions, sharpnessValues);
