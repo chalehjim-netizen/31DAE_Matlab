@@ -24,6 +24,10 @@ classdef PYNQ_StepMot < handle
         defaultPWMDevice = "PWM0";
     end
 
+    properties (Access = public)
+        actualPos {mustBeNumeric} = 0;
+    end
+
     % Frequency and DutyCycle are set by default
     properties (SetAccess = private)
         PulsePin;
@@ -123,7 +127,7 @@ classdef PYNQ_StepMot < handle
                 obj PYNQ_LIB.PYNQ_StepMot
                 Frequency {mustBeNumeric,mustBeScalarOrEmpty}
                 Duty {mustBeNumeric, mustBeNonnegative, mustBeScalarOrEmpty, mustBeLessThanOrEqual(Duty,1)} = 0.5
-                Steps {isinteger} = -1
+                Steps {mustBeInteger} = -1
             end   
 
             if Frequency==0 % Motor will not move

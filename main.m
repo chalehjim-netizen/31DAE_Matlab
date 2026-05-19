@@ -1,4 +1,4 @@
-clearvars; clc; close all;
+clearvars -except PYNQ_obj StepMot; clc; close all;
 disp('--- Starting Autofocus Pipeline ---');
 
 % === SECTION 1 - DEFINE PARAMETERS ===
@@ -19,11 +19,15 @@ range_scan = [stepsStart, stepsEnd];
 
 
 % === SECTION 2 - INITIALIZATION ===
-disp('Initializing Hardware...');
-[PYNQ_obj, StepMot] = initializePynqBoard();
+if ~exist('PYNQ_obj', 'var') || ~isvalid(PYNQ_obj) || ~exist('StepMot', 'var') || ~isvalid(StepMot)
+    disp('Initializing Hardware...');
+    [PYNQ_obj, StepMot] = initializePynqBoard();
 
-% Automatically calibrate the motor to find the physical zero position
-calibrateMotor(StepMot);
+    % Automatically calibrate the motor to find the physical zero position
+    calibrateMotor(StepMot);
+else
+    disp('Hardware already initialized. Skipping calibration.');
+end
 
 [vid, src] = initializeCamera(t_expo, gain);
 

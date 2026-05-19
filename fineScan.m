@@ -4,16 +4,12 @@ function [positions, sharpnessValues] = fineScan(vid, StepMot, scanRange, fineSt
     % Arrays to store our data
     positions = [];
     sharpnessValues = [];
-
-    % Start tracking
-    actualPos = fineRange(1);
     
     % Loop through the fine scan range
-    for pos = fineRange(1):fineStep:fineRange(2)
+    for pos = scanRange(1):fineStep:scanRange(2)
     
         % Move motor to target position
-        moveMotor(pos, fineRange, actualPos, motorObj);
-        motorObj.actualPos = pos
+        moveMotor(StepMot, pos);
     
         % Wait a tiny bit for the physical stage to stop shaking
         pause(settlingTime);

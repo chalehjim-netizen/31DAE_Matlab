@@ -1,5 +1,6 @@
 function [positions, sharpnessValues] = coarseScan( ...
     vid, ...
+    StepMot, ...
     scanRange, ...
     coarseStep, ...
     settlingTime)
@@ -8,14 +9,11 @@ function [positions, sharpnessValues] = coarseScan( ...
     positions = [];
     sharpnessValues = [];
 
-    % Track current motor position
-    actualPos = scanRange(1);
-
     % Loop through all scan positions
     for pos = scanRange(1):coarseStep:scanRange(2)
 
         % Move motor to target position
-        moveMotor(pos,scanRange,motorObj.actualPos);
+        moveMotor(StepMot, pos);
  
         % Wait for stage vibrations to settle
         pause(settlingTime);
