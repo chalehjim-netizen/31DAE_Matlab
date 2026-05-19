@@ -3,7 +3,7 @@ function saveData(coarseResults, fineResults, bestCoarsePos, bestFinePos, figs)
 
     % 1. Create a folder for today's session
     todayDate = datestr(now, 'yyyy_mm_dd');
-    sessionFolder = ['data/session_', todayDate];
+    sessionFolder = ['../data/session_', todayDate];
 
     if exist(sessionFolder, 'dir') == 0
         mkdir(sessionFolder);
