@@ -1,7 +1,7 @@
 % liveCameraPreview.m
 % Run this script to open a live video feed from the camera.
 % This is useful for manually adjusting the sample position or lighting 
-% before running the automated autofocus script!
+% before running the automated autofocus script
 
 clearvars; clc; close all;
 
