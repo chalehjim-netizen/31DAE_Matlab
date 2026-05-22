@@ -22,6 +22,10 @@ function saveData(coarseResults, fineResults, bestCoarsePos, bestFinePos, figs)
 
     % 4. Save the figures (as PNG and as MATLAB .fig)
     for i = 1:length(figs)
+        if ~isgraphics(figs(i))
+            warning('Figure at index %d is invalid or has been closed, skipping.', i);
+            continue;
+        end
         figName = figs(i).Name;
         if isempty(figName)
             figName = ['figure_', num2str(figs(i).Number)];
