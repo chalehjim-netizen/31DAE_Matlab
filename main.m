@@ -58,8 +58,8 @@ disp('Autofocus Complete');
 
 % Capture and display final sharp frame
 finalImg = captureFrame(vid);
-finalFig = figure('Name', 'final_focused_image'); 
-imshow(finalImg, []); 
+finalFig = figure('Name', 'final_focused_image');
+imshow(finalImg, []);
 title('Final Autofocused Image');
 
 % === 6. SAVE DATA ===
