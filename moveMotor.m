@@ -5,6 +5,12 @@ function moveMotor(motorObj, targetPos, frequency)
         frequency = 1000; % Default speed: steps per second
     end
     
+    % Clamp frequency to the hardware class limit of 4500 Hz to prevent validation crashes
+    if frequency > 4500
+        warning('Motor frequency %d Hz exceeds maximum limit of 4500 Hz. Clamping to 4500 Hz.', frequency);
+        frequency = 4500;
+    end
+    
     currentPos = motorObj.actualPos;
     steps_to_move = targetPos - currentPos;
     

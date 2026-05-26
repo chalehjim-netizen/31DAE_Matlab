@@ -4,10 +4,10 @@ disp('--- Starting Autofocus Pipeline ---');
 % === 1. DEFINE PARAMETERS ===
 % Camera Parameters
 t_expo = 4000; % How long the camera takes to take a picture
-gain = 0.1;
+gain = 0.2;
 
 % Motor Parameters
-motorFrequency = 4000; % Speed: steps per second (default is 1000)
+motorFrequency = 6000; % Speed: steps per second (default is 1000)
 
 % Scan Parameters
 settlingTime = 0.2; % Wait time after moving the motor
@@ -17,9 +17,18 @@ fineRangeOffset = 1500; % How far to scan around the fast scan peak
 range_scan = [0, 15000]; % The total allowed movement range
 
 % === 2. INITIALIZATION ===
-if ~exist('PYNQ_obj', 'var') || ~isvalid(PYNQ_obj) || ~exist('StepMot', 'var') || ~isvalid(StepMot) || ~PYNQ_obj.isConnected()
+hardware_ok = false;
+if exist('PYNQ_obj', 'var') && isvalid(PYNQ_obj) && PYNQ_obj.isConnected()
+    if exist('StepMot', 'var') && isvalid(StepMot) && ...
+       isa(StepMot.PYNQ_obj, 'PYNQ_LIB.PYNQ_ML') && isvalid(StepMot.PYNQ_obj) && ...
+       (StepMot.PYNQ_obj == PYNQ_obj)
+        hardware_ok = true;
+    end
+end
+
+if ~hardware_ok
     disp('Initializing Hardware...');
-    % Clean up old connection if it exists but is dead
+    % Clean up old connection if it exists
     if exist('PYNQ_obj', 'var') && isvalid(PYNQ_obj)
         try delete(PYNQ_obj); catch; end
     end
