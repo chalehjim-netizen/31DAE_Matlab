@@ -19,7 +19,6 @@ function [bestPos, fig] = findBestFocus(positions, sharpnessValues, scanName)
     
     xlabel('Motor Position (Steps)');
     ylabel('Sharpness (Tenengrad)');
-    title(scanName);
     legend('show');
     grid on;
     hold off;
