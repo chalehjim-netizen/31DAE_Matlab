@@ -7,7 +7,7 @@ t_expo = 4000; % How long the camera takes to take a picture
 gain = 0.2;
 
 % Motor Parameters
-motorFrequency = 6000; % Speed: steps per second (default is 1000)
+motorFrequency = 4500; % Speed: steps per second (default is 1000)
 
 % Scan Parameters
 settlingTime = 0.2; % Wait time after moving the motor
