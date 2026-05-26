@@ -17,8 +17,16 @@ fineRangeOffset = 1500; % How far to scan around the fast scan peak
 range_scan = [0, 15000]; % The total allowed movement range
 
 % === 2. INITIALIZATION ===
-if ~exist('PYNQ_obj', 'var') || ~isvalid(PYNQ_obj) || ~exist('StepMot', 'var') || ~isvalid(StepMot)
+if ~exist('PYNQ_obj', 'var') || ~isvalid(PYNQ_obj) || ~exist('StepMot', 'var') || ~isvalid(StepMot) || ~PYNQ_obj.isConnected()
     disp('Initializing Hardware...');
+    % Clean up old connection if it exists but is dead
+    if exist('PYNQ_obj', 'var') && isvalid(PYNQ_obj)
+        try delete(PYNQ_obj); catch; end
+    end
+    if exist('StepMot', 'var') && isvalid(StepMot)
+        try delete(StepMot); catch; end
+    end
+    
     [PYNQ_obj, StepMot] = initializePynqBoard();
 else
     disp('Hardware already initialized.');
