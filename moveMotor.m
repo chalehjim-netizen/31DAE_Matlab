@@ -1,5 +1,9 @@
-function moveMotor(motorObj, targetPos)
+function moveMotor(motorObj, targetPos, frequency)
     % Move the motor to the target position
+    
+    if nargin < 3 || isempty(frequency)
+        frequency = 1000; % Default speed: steps per second
+    end
     
     currentPos = motorObj.actualPos;
     steps_to_move = targetPos - currentPos;
@@ -16,7 +20,6 @@ function moveMotor(motorObj, targetPos)
     end
     
     abs_steps = abs(steps_to_move);
-    frequency = 1000; % Speed: steps per second
     
     motorObj.startMoving(dir, frequency, abs_steps);
     

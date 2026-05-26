@@ -6,6 +6,9 @@ disp('--- Starting Autofocus Pipeline ---');
 t_expo = 4000; % How long the camera takes to take a picture
 gain = 0.1;
 
+% Motor Parameters
+motorFrequency = 4000; % Speed: steps per second (default is 1000)
+
 % Scan Parameters
 settlingTime = 0.2; % Wait time after moving the motor
 coarseStep = 1000;  % Step size for the fast scan
@@ -32,7 +35,7 @@ disp('--- Initializing Camera ---')
 % === 3. COARSE SCAN ===
 autofocusTimer = tic;
 disp('Starting Coarse Scan...');
-[coarsePos, coarseSharpness, coarseResults] = coarseScan(vid, StepMot, range_scan, coarseStep, settlingTime);
+[coarsePos, coarseSharpness, coarseResults] = coarseScan(vid, StepMot, range_scan, coarseStep, settlingTime, motorFrequency);
 
 disp('Analyzing Coarse Data...');
 [bestCoarsePos, coarseFig] = findBestFocus(coarsePos, coarseSharpness, 'coarse_sharpness_vs_position');
@@ -44,7 +47,7 @@ fineStart = max(0, bestCoarsePos - fineRangeOffset);
 fineEnd = bestCoarsePos + fineRangeOffset;
 fine_range_scan = [fineStart, fineEnd];
 
-[finePos, fineSharpness, fineResults] = fineScan(vid, StepMot, fine_range_scan, fineStep, settlingTime);
+[finePos, fineSharpness, fineResults] = fineScan(vid, StepMot, fine_range_scan, fineStep, settlingTime, motorFrequency);
 
 disp('Analyzing Fine Data...');
 [bestFinePos, fineFig] = findBestFocus(finePos, fineSharpness, 'fine_sharpness_vs_position');
@@ -52,7 +55,7 @@ fprintf('Ultimate Best Focus found at step: %d\n', bestFinePos);
 
 % === 5. FINAL POSITIONING ===
 disp('Moving motor to final best focus...');
-moveMotor(StepMot, bestFinePos);
+moveMotor(StepMot, bestFinePos, motorFrequency);
 pause(settlingTime);
 
 disp('Autofocus Complete');

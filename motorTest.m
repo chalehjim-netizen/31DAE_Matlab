@@ -10,6 +10,7 @@ else
     disp('PYNQ board already connected.');
 end
 
+
 if ~exist('motor', 'var') || ~isvalid(motor)
     disp('Connecting to Stepper Motor...');
     motor = PYNQ_LIB.PYNQ_StepMot(PYNQ_obj);
@@ -22,7 +23,7 @@ disp('Hardware connected successfully!');
 % Frequency: 1000 steps per second
 % Steps: 5000
 disp('Moving motor forward (direction 1) to avoid limit switches...');
-motor.startMoving(1, 1000, 5000); 
+motor.startMoving(1, 1000, 5000);
 
 disp('Monitoring steps left on the board...');
 for i = 1:10

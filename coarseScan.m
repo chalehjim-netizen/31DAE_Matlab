@@ -3,15 +3,20 @@ function [positions, sharpnessValues, results] = coarseScan( ...
     StepMot, ...
     scanRange, ...
     coarseStep, ...
-    settlingTime)
+    settlingTime, ...
+    frequency)
     
     % Do a fast, rough scan across the whole range
+    
+    if nargin < 6 || isempty(frequency)
+        frequency = 1000;
+    end
 
     positions = [];
     sharpnessValues = [];
 
     for pos = scanRange(1):coarseStep:scanRange(2)
-        moveMotor(StepMot, pos);
+        moveMotor(StepMot, pos, frequency);
  
         % Wait for the stage to stop shaking
         pause(settlingTime);

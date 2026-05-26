@@ -1,11 +1,15 @@
-function [positions, sharpnessValues, results] = fineScan(vid, StepMot, scanRange, fineStep, settlingTime)
+function [positions, sharpnessValues, results] = fineScan(vid, StepMot, scanRange, fineStep, settlingTime, frequency)
     % Do a slow, detailed scan around the best coarse position
+    
+    if nargin < 6 || isempty(frequency)
+        frequency = 1000;
+    end
     
     positions = [];
     sharpnessValues = [];
     
     for pos = scanRange(1):fineStep:scanRange(2)
-        moveMotor(StepMot, pos);
+        moveMotor(StepMot, pos, frequency);
         pause(settlingTime); % Wait for the stage to stop shaking
     
         img = captureFrame(vid);
