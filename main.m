@@ -4,7 +4,7 @@ disp('--- Starting Autofocus Pipeline ---');
 % === 1. DEFINE PARAMETERS ===
 % Camera Parameters
 t_expo = 4000; % How long the camera takes to take a picture
-gain = 0.2;
+gain = 0.1;
 
 % Scan Parameters
 settlingTime = 0.2; % Wait time after moving the motor
@@ -30,6 +30,7 @@ disp('--- Initializing Camera ---')
 [vid, src] = initializeCamera(t_expo, gain);
 
 % === 3. COARSE SCAN ===
+autofocusTimer = tic;
 disp('Starting Coarse Scan...');
 [coarsePos, coarseSharpness, coarseResults] = coarseScan(vid, StepMot, range_scan, coarseStep, settlingTime);
 
@@ -55,6 +56,8 @@ moveMotor(StepMot, bestFinePos);
 pause(settlingTime);
 
 disp('Autofocus Complete');
+autofocusTime = toc(autofocusTimer);
+fprintf('Total Autofocus Search Time: %.2f seconds\n', autofocusTime);
 
 % Capture and display final sharp frame
 finalImg = captureFrame(vid);

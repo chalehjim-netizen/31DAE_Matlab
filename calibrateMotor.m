@@ -20,8 +20,8 @@ function calibrateMotor(StepMot)
     StepMot.actualPos = 0; 
     
     % Move slightly forward so the switch isn't pressed
-    disp('Backing off the switch slightly to position 0...');
-    moveMotor(StepMot, 0);
+    disp('Backing off the switch slightly to position 500...');
+    moveMotor(StepMot, 500);
     
     disp('Calibration complete. Position is now 500.');
     disp('--------------------------------------------------');
