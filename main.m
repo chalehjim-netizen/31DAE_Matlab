@@ -5,6 +5,7 @@ disp('--- Starting Autofocus Pipeline ---');
 % Camera Parameters
 t_expo = 4000; % How long the camera takes to take a picture
 gain = 0.2;
+motorFreq = 4000
 
 % Motor Parameters
 motorFrequency = 4500; % Speed: steps per second (default is 1000)
